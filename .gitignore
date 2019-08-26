@@ -21,10 +21,10 @@ debug
 .vscode
 
 ### Let's encrypt certs ###
-.ssl
+.ssl/
 
 ### server internal proxy certs (for nginx) ###
-.certs
+.certs/
 
 ### Databases backups ###
 db/data
