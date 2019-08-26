@@ -1,0 +1,63 @@
+version: "3.7"
+services:
+    app1:
+        build: ./app/.
+        image: my-app-img
+        container_name: my-app-cont_1
+        restart: always
+        volumes:
+          - './.certs/server:/.certs/server'
+        ports:
+            - '3333:443'
+    app2:
+        image: my-app-img
+        container_name: my-app-cont_2
+        restart: always
+        depends_on: 
+          - app1
+        volumes:
+          - './.certs/server:/.certs/server'
+        ports:
+            - '3334:443'     
+    app3:
+        image: my-app-img
+        container_name: my-app-cont_3
+        restart: always
+        depends_on: 
+          - app1
+        volumes:
+          - './.certs/server:/.certs/server'
+        ports:
+            - '3335:443'              
+    db:
+        build: ./db/.
+        image: my-app-postgres-img
+        container_name: my-app-db
+        hostname: my-app-db
+        restart: always
+        volumes:
+            - './db/data/:/var/lib/postgresql/data'
+        ports:
+            - '5432:5432'
+        environment:
+          POSTGRES_PASSWORD: example
+    nginx:
+      build: "./nginx"
+      image: my-app-nginx-img
+      container_name: my-app-nginx
+      restart: always
+      volumes:
+        - './.certs:/.certs'
+        - './.ssl:/.ssl'
+      ports:
+        - "8080:8080"
+      depends_on:
+        - app1
+      links:
+        - app1
+        - app2
+        - app3
+networks:
+  default:
+    external:
+      name: my-bridge-network

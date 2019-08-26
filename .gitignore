@@ -21,7 +21,13 @@ debug
 .vscode
 
 ### Let's encrypt certs ###
-.lego
+.ssl
+
+### server internal proxy certs (for nginx) ###
+.certs
+
+### Databases backups ###
+db/data
 
 # Icon must end with two \r
 Icon
@@ -56,4 +62,9 @@ Temporary Items
 # secrets/
 
 # # exception to the rule: we need folders!
+# Docker secrets
 # !secrets/.gitkeep
+!.ssl/.gitkeep
+!.certs/client/.gitkeep
+!.certs/client/.gitkeep
+!db/data/.gitkeep
